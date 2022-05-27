@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { userContext } from "../../App";
+import PokemonCreate from "./pokemon-create";
 
 export default function PokemonWelcome() {
     const [pokemonBody, setPokemonBody] = useState([]);
-    const [display, setDisplay] = useState(false);
-    const [anotherOne, setAnotherOne] = useState(false);
+    const [user, setUser] = useContext(userContext);
+    const navigate = useNavigate();
+    const [pokemon, setPokemon] = useState(true);
 
     useEffect(() => {
         findAll();
-    }, []);
-
-    // when the display state is changed, this alert message will also reappear. the changeDisplay function does not
-    // trigger and alert. The useEffect does as a side-effect, due to us specifying display inside of the []
-    useEffect(() => {
-        alert("Example of side effects when state is changed");
-    }, [display, anotherOne]);
+    }, [pokemon]);
 
     // Async/Await in JS, this came around in 2016 (ECMAScript6)
     async function findAll() {
@@ -36,23 +35,32 @@ export default function PokemonWelcome() {
         }
     }
 
-    function changeDisplay() {
-        if (display === true) {
-            setDisplay(false);
-        } else {
-            setDisplay(true);
-        }
-    }
-    function changeAnotherOne() {
-        if (anotherOne === true) {
-            setAnotherOne(false);
-        } else {
-            setAnotherOne(true);
+    const pokemonHard = {
+        pokemonName: "MaxwellHouse",
+        hp: 10,
+        atk: 1,
+        elementType: 1,
+        ability1: "Tackle",
+        ability2: "Vine Whip",
+    };
+
+    async function createPokemon() {
+        try {
+            await axios.post("http://localhost:8080/poke_project/pokemon", pokemonHard);
+            if (pokemon === true) {
+                setPokemon(false);
+            } else {
+                setPokemon(true);
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
     return (
         <>
+            {user.email === "Guest" ? <button onClick={() => navigate("/login")}>Login to Create Pokemon</button> : <PokemonCreate />}
+            {user.email === "Guest" || <button onClick={createPokemon}>Create Pokemon</button>}
             <table>
                 <thead>
                     <tr>
@@ -62,8 +70,6 @@ export default function PokemonWelcome() {
                 </thead>
                 <tbody>{pokemonBody}</tbody>
             </table>
-            <button onClick={changeDisplay}>Display</button>
-            <button onClick={changeAnotherOne}>Another One</button>
         </>
     );
 }

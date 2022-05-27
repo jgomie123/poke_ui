@@ -1,26 +1,34 @@
 import axios from "axios";
-import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { userContext } from "../../App";
 
 export default function TrainerLogin() {
     const emailInput = useRef();
     const passwordInput = useRef();
+    const [user, setUser] = useContext(userContext);
+    const navigate = useNavigate();
 
     async function login() {
         // Whenever you are getting a useRefs value, make sure it's inside some function call. Otherwise it will
         // error due to the refInput.current = undefined, meaning there is no .value available
-        const user = {
+        const trainer = {
             email: emailInput.current.value,
             password: passwordInput.current.value,
         };
 
-        if (user.password === "hello") {
+        if (trainer.password === "hello") {
             alert("You need to reset password");
         } else {
             try {
-                const response = await axios.post("http://localhost:8080/poke_project/auth", user);
+                const response = await axios.post("http://localhost:8080/poke_project/auth", trainer);
                 console.log(response.data);
-                window.location.replace("http://localhost:3000/dashboard");
+                console.log("Hey this is the user prior ", user);
+                setUser({ ...user, email: trainer.email });
+                console.log("This is after we set the user ", user);
+                // the below code, manipulates the DOM
+                // window.location.replace("http://localhost:3000/dashboard");
+                navigate("/dashboard");
             } catch (error) {
                 console.error(error.response.data);
                 alert(error.response.data);

@@ -1,14 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
+    const navigate = useNavigate();
     return (
         <nav>
-            <Link to="/">Home Page</Link>
+            <Link to="/">
+                <button>Home Page</button>
+            </Link>
             <span> </span>
-            <Link to="/login">Login</Link>
+            <Link to="/login">
+                <button>Login</button>
+            </Link>
             <span> </span>
-            <Link to="/register">Sign up</Link>
+            <Link to="/register">
+                <button>Sign up</button>
+            </Link>
             <span> </span>
+            <Link to="/pokemon">
+                <button>Pokemon</button>
+            </Link>
         </nav>
     );
 }

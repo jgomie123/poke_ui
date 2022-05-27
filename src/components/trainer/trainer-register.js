@@ -10,6 +10,9 @@ export default function TrainerRegister() {
     //     dob: "12-31-0000",
     // };
 
+    // const url = "https://pokeproject.azurewebsites.net";
+    const url = "http://localhost:8080/poke_project";
+
     const fnameInput = useRef();
     const lnameInput = useRef();
     const emailInput = useRef();
@@ -28,7 +31,7 @@ export default function TrainerRegister() {
             dob: dobInput.current.value,
         };
         try {
-            const response = await axios.post("http://localhost:8080/poke_project/trainers", user);
+            const response = await axios.post(`${url}/trainers`, user);
             console.log(response.data);
         } catch (error) {
             console.error(error.response.data);
