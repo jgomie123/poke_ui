@@ -10,8 +10,8 @@ export default function TrainerRegister() {
     //     dob: "12-31-0000",
     // };
 
-    // const url = "https://pokeproject.azurewebsites.net";
-    const url = "http://localhost:8080/poke_project";
+    const url = "https://pokeproject.azurewebsites.net";
+    // const url = "http://localhost:8080/poke_project";
 
     const fnameInput = useRef();
     const lnameInput = useRef();

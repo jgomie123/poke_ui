@@ -9,6 +9,7 @@ export default function PokemonWelcome() {
     const [user, setUser] = useContext(userContext);
     const navigate = useNavigate();
     const [pokemon, setPokemon] = useState(true);
+    const url = "https://pokeproject.azurewebsites.net";
 
     useEffect(() => {
         findAll();
@@ -17,7 +18,7 @@ export default function PokemonWelcome() {
     // Async/Await in JS, this came around in 2016 (ECMAScript6)
     async function findAll() {
         try {
-            const response = await fetch("http://localhost:8080/poke_project/pokemon");
+            const response = await fetch(`${url}/pokemon`);
             const pokemons = await response.json();
             const pokemonTableRows = pokemons.map((e) => {
                 return (
@@ -46,7 +47,7 @@ export default function PokemonWelcome() {
 
     async function createPokemon() {
         try {
-            await axios.post("http://localhost:8080/poke_project/pokemon", pokemonHard);
+            await axios.post(`${url}/pokemon`, pokemonHard);
             if (pokemon === true) {
                 setPokemon(false);
             } else {

@@ -8,6 +8,7 @@ export default function TrainerLogin() {
     const passwordInput = useRef();
     const [user, setUser] = useContext(userContext);
     const navigate = useNavigate();
+    const url = "https://pokeproject.azurewebsites.net";
 
     async function login() {
         // Whenever you are getting a useRefs value, make sure it's inside some function call. Otherwise it will
@@ -21,7 +22,7 @@ export default function TrainerLogin() {
             alert("You need to reset password");
         } else {
             try {
-                const response = await axios.post("http://localhost:8080/poke_project/auth", trainer);
+                const response = await axios.post(`${url}/auth`, trainer);
                 console.log(response.data);
                 console.log("Hey this is the user prior ", user);
                 setUser({ ...user, email: trainer.email });
